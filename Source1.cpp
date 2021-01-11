@@ -102,9 +102,8 @@ public:
 		}
 	}
 /*============================================SelectionSort=====================================================*/
-	void selection() // tang dan
+	void selection() 
 	{
-		int min;
 		Node p, q;
 		Node t = NULL;
 		p = dau;
@@ -131,6 +130,7 @@ public:
 		int length = 0, i = 0;
 		Node p = NULL;
 		//luot qua danh sach node de tinh do dai cua danh sach
+		
 		p = dau;
 		while (p != NULL)
 		{
@@ -159,9 +159,9 @@ public:
 			key = *(arr + i);
 			j = i - 1;
 
-			/* Di chuy?n các ph?n t? có giá tr? l?n hon giá tr?
-			key v? sau m?t v? trí so v?i v? trí ban d?u
-			c?a nó */
+			/* Di chuyen cac phan tu có giá tri lon hon giá tri
+				khoa ve sau mot vi trí so voi vi trí ban dau
+				cua nó */
 			while (j >= 0 && *(arr + j) > key)
 			{
 				
@@ -188,24 +188,22 @@ public:
 /*============================================HeapSort=====================================================*/
 	void heapify(int *arr, int n, int i)
 	{
-		int largest = i; // Initialize largest as root 
+		int largest = i; // khoi tao gri goc lon nhat = i
 		int l = 2 * i + 1; // left = 2*i + 1 
 		int r = 2 * i + 2; // right = 2*i + 2 
 
-		// If left child is larger than root 
+		// neu left > goc
 		if (l < n && arr[l] > arr[largest])
 			largest = l;
 
-		// If right child is larger than largest so far 
+		// neu right > goc
 		if (r < n && arr[r] > arr[largest])
 			largest = r;
 
-		// If largest is not root 
+		// neu lon nhat khong phai la goc 
 		if (largest != i)
 		{
 			swap(arr [i], arr[largest]);
-
-			// Recursively heapify the affected sub-tree 
 			heapify(arr, n, largest);
 		}
 	}
@@ -237,7 +235,7 @@ public:
 		}
 
 		//sap xep
-		// Build heap (rearrange array) 
+		 
 		for (int i = n / 2 - 1; i >= 0; i--)
 			heapify(arr, n, i);
 
@@ -283,11 +281,10 @@ public:
 	{
 		if (low < high)
 		{
-			/* pi là ch? s? noi ph?n t? này dã d?ng dúng v? trí
-			 và là ph?n t? chia m?ng làm 2 m?ng con trái & ph?i */
+			/* pi: chia mang làm 2 mang con trái & phai */
 			int pi = partition(arr, low, high);
 
-			// G?i d? quy s?p x?p 2 m?ng con trái và ph?i
+			//  sap xep 2 mang con trái và phai
 			quickSort(arr, low, pi - 1);
 			quickSort(arr, pi + 1, high);
 		}
@@ -340,7 +337,7 @@ public:
 		if (this->dau != NULL)
 		{
 			Node p = this->dau;
-			int dem = 1;
+			int dem = 0;
 			while (p != NULL)
 			{
 				if (p->getGtri() == gtri)
@@ -353,6 +350,44 @@ public:
 			}
 		}
 		return -1;
+	}
+/*============================================Timkiem=====================================================*/
+	
+	int find(int arr[], int l, int r, int gtri) 
+	{
+	  	if (r >= l) 
+		  	{
+		    int mid = l + (r - l) / 2; 	    
+		    if (arr[mid] == gtri)
+		      return mid;	 	    
+		    if (arr[mid] > gtri)
+		      return find(arr, l, mid - 1, gtri);	 
+		    
+		    return find(arr, mid + 1, r, gtri);
+	    	}
+ 
+  		return -1;
+	}
+	int timkiem1(int gtri)
+	{
+		int length = 0; 
+		Node p = NULL;
+		//luot qua danh sach node de tinh do dai cua danh sach
+		p = dau;
+		while (p != NULL)
+		{
+			p = (p->getNext());
+			length++;
+		}
+		int a[length];
+		p = dau;
+		for (int i = 0; i < length; i++)
+		{
+			a[i] = p->getGtri();
+			p=p->getNext();	
+
+		}
+		int vt = find(a, 1, length, gtri);
 	}
 };
 
@@ -380,7 +415,9 @@ int main()
 	nodes->quickSort();
 	nodes->XuatDs();
 	printf("\n\nVi tri xuat hien trong danh sach la : ");
-	printf("%d ", nodes->TimKiem(20));  // tim kiem vi tri cua so 7
+	printf("%d ", nodes->TimKiem(70));
+	printf("\n\nVi tri xuat hien trong danh sach la : ");
+	printf("%d ", nodes->timkiem1(70));
 	cout << endl;
 	return 1;
 }

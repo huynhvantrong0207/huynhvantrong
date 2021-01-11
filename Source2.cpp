@@ -168,12 +168,10 @@ class ds{
 				khoa ve sau mot vi trí so voi vi trí ban dau
 				cua nó */
 				while (j >= 0 && *(arr + j) > key)
-				{
-					//arr[j + 1] = arr[j];
+				{					
 					*(arr + j + 1) = *(arr + j);
 					j = j - 1;
-				}
-				//arr[j + 1] = key;
+				}				
 				*(arr + j + 1) = key;
 			}
 
@@ -338,7 +336,7 @@ class ds{
 			if(this->dau!=NULL)
 			{
 				Node p = this->dau;
-				int dem = 1;
+				int dem = 0;
 				while(p!=NULL)
 				{
 					if(p->getGtri()==gtri)
@@ -352,6 +350,46 @@ class ds{
 			}		
 			return -1;
 		}
+/*============================================Timkiem=====================================================*/
+
+	int find(int arr[], int l, int r, int gtri) 
+	{
+	  if (r >= l) 
+	  	{
+	    int mid = l + (r - l) / 2; 	    
+	    if (arr[mid] == gtri)
+	      return mid;	 	    
+	    if (arr[mid] > gtri)
+	      return find(arr, l, mid - 1, gtri);	 
+	    
+	    return find(arr, mid + 1, r, gtri);
+    	}
+ 
+  		return -1;
+	}
+	int timkiem1(int gtri)
+	{
+		int length = 0; 
+		Node p = NULL;
+		//luot qua danh sach node de tinh do dai cua danh sach
+		p = dau;
+		while (p != NULL)
+		{
+			p = (p->getNext());
+			length++;
+		}
+		int a[length];
+		p = dau;
+		for (int i = 0; i < length; i++)
+		{
+			a[i] = p->getGtri();
+			p=p->getNext();	
+
+		}
+		int vt = find(a, 0, length, gtri);
+
+	
+	}
 };
 
 /*============================================DocFile=====================================================*/
@@ -391,6 +429,8 @@ int main()
 	nodes->quickSort();
 	nodes->XuatDs();
 	vtri = nodes->TimKiem(k);
+	printf("\n\nVi tri cua %d trong danh sach la : %d",k,vtri);
+	vtri = nodes->timkiem1(k);
 	printf("\n\nVi tri cua %d trong danh sach la : %d",k,vtri);
 	return 1;
 }
